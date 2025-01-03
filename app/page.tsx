@@ -4,8 +4,6 @@ import Link from 'next/link';
 import styles from '@/app/ui/home.module.css';
 import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
-import { myFont } from '@/app/ui/fonts';
-
 
 export default function Page() {
   return (
@@ -25,8 +23,6 @@ export default function Page() {
             </a>
             , brought to you by Vercel.
           </p>
-          <p>Как-то так Proverka</p>
-          <p className={`myFont.className antialiased`}>Как-то так Proverka2</p>
           <Link
             href="/login"
             className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
