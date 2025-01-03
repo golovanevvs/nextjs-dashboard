@@ -5,15 +5,7 @@ const { Client } = require("pg");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const client = new Client({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-});
-
-async function seedUsers() {
+async function seedUsers(client: any) {
   await client.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
   await client.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -41,7 +33,7 @@ async function seedUsers() {
   return insertedUsers;
 }
 
-async function seedInvoices() {
+async function seedInvoices(client: any) {
   await client.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
 
   await client.query(`
@@ -70,7 +62,7 @@ async function seedInvoices() {
   return insertedInvoices;
 }
 
-async function seedCustomers() {
+async function seedCustomers(client: any) {
   await client.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
 
   await client.query(`
@@ -98,7 +90,7 @@ async function seedCustomers() {
   return insertedCustomers;
 }
 
-async function seedRevenue() {
+async function seedRevenue(client: any) {
   await client.query(`
     CREATE TABLE IF NOT EXISTS revenue (
       month VARCHAR(4) NOT NULL UNIQUE,
@@ -123,22 +115,29 @@ async function seedRevenue() {
 }
 
 export async function GET() {
+  const client = new Client({
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
+  });
   try {
     await client.connect();
     await client.query(`BEGIN`);
-    await seedUsers();
-    await seedCustomers();
-    await seedInvoices();
-    await seedRevenue();
+    await seedUsers(client);
+    await seedCustomers(client);
+    await seedInvoices(client);
+    await seedRevenue(client);
     await client.query(`COMMIT`);
     const res = await client.query(
       "CREATE TABLE IF NOT EXISTS revenue (month VARCHAR(4) NOT NULL UNIQUE, revenue INT NOT NULL);"
     );
     await client.end();
-
     return Response.json({ message: "Database seeded successfully" });
   } catch (error) {
     await client.query(`ROLLBACK`);
+    await client.end();
     return Response.json({ error }, { status: 500 });
   }
 }
