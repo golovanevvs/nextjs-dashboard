@@ -10,31 +10,32 @@ import { RevenueChartSkeleton } from '@/app/ui/skeletons';
 import { LatestInvoicesSkeleton } from '@/app/ui/skeletons';
 import CardWrapper from '@/app/ui/dashboard/cards';
 import { CardSkeleton } from '@/app/ui/skeletons';
+import dotenv from "dotenv"
+import {Client} from 'pg';
 
-const { Client } = require("pg");
-const dotenv = require("dotenv");
+
 dotenv.config();
-
-export default async function Page() {
-  const client = new Client({
+export const client = new Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
     database: process.env.PG_DATABASE,
     password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-  });
-  await client.connect();
+    port: Number(process.env.PG_PORT),
+});
 
-  //const revenue = await fetchRevenue(client);
-  //const latestInvoices = await fetchLatestInvoices(client);
+export default async function Page() {
+
+  client.connect()
+  
+
+  //const revenue = await fetchRevenue();
+  //const latestInvoices = await fetchLatestInvoices();
   // const {
   //   totalPaidInvoices,
   //   totalPendingInvoices,
   //   numberOfInvoices,
   //   numberOfCustomers,
-  // } = await fetchCardData(client);
-
-  //await client.end();
+  // } = await fetchCardData();
 
   return (
     <main>
@@ -51,17 +52,18 @@ export default async function Page() {
           type="customers"
         /> */}
         <Suspense fallback={<CardSkeleton />}>
-        <CardWrapper client={client} />
+        <CardWrapper />
         </Suspense>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<RevenueChartSkeleton />}>
-          <RevenueChart client={client} />
+          <RevenueChart />
         </Suspense>
         <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <LatestInvoices client={client} />
+          <LatestInvoices />
         </Suspense>
       </div>
     </main>
   );
 }
+

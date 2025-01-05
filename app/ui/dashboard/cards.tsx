@@ -14,13 +14,13 @@ const iconMap = {
   invoices: InboxIcon,
 };
 
-export default async function CardWrapper({client}:any) {
+export default async function CardWrapper() {
   const {
     numberOfInvoices,
     numberOfCustomers,
     totalPaidInvoices,
     totalPendingInvoices,
-  } = await fetchCardData(client);
+  } = await fetchCardData();
   return (
     <>
       {/* NOTE: Uncomment this code in Chapter 9 */}

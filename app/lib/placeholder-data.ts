@@ -35,6 +35,12 @@ const customers = [
     image_url: '/customers/michael-novotny.png',
   },
   {
+    id: '76d65c26-f784-44a2-ac19-586678f7c2d1',
+    name: 'Michael Novotny2',
+    email: 'michael2@novotny.com',
+    image_url: '/customers/michael-novotny.png',
+  },
+  {
     id: 'CC27C14A-0ACF-4F4A-A6C9-D45682C144B9',
     name: 'Amy Burns',
     email: 'amy@burns.com',
@@ -44,6 +50,12 @@ const customers = [
     id: '13D07535-C59E-4157-A011-F8D2EF4E0CBB',
     name: 'Balazs Orban',
     email: 'balazs@orban.com',
+    image_url: '/customers/balazs-orban.png',
+  },
+  {
+    id: '13D07535-C59E-4157-A011-F8D2EF4E0CB1',
+    name: 'Balazs Orban2',
+    email: 'balazs2@orban.com',
     image_url: '/customers/balazs-orban.png',
   },
 ];

@@ -1,8 +1,8 @@
-const { Client } = require("pg");
 const dotenv = require("dotenv");
 dotenv.config();
+import {client} from '@/app/dashboard/(overview)/page'
 
-async function listInvoices(client: any) {
+async function listInvoices() {
   const data = await client.query(`
     SELECT invoices.amount, customers.name
     FROM invoices
@@ -14,20 +14,9 @@ async function listInvoices(client: any) {
 }
 
 export async function GET() {
-  const client = new Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-  });
   try {
-    await client.connect();
-    const li = await listInvoices(client);
-    await client.end();
-    return Response.json(li);
+    return Response.json(await listInvoices());
   } catch (error) {
-    await client.end();
     return Response.json({ error }, { status: 500 });
   }
 }
