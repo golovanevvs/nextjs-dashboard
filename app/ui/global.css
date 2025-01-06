@@ -18,8 +18,6 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 @font-face {
-  font-family: myFont;
+  font-family: myFont2;
   src: url('/fonts/ComicCodeLigatures-Regular.otf');
 }
-
-p { font-family: myFont; }
