@@ -66,6 +66,13 @@ export function InvoicesTableMRT({
         enableHiding: false,
       },
       {
+        accessorKey: 'date',
+        header: 'Date',
+        Cell: ({ cell }) =>  cell.getValue<Date>().toLocaleDateString(),
+        muiTableHeadCellProps: { style: { color: 'green' } },
+        enableHiding: false,
+      },
+      {
         accessorKey: 'status',
         header: 'Status',
         muiTableHeadCellProps: { style: { color: 'green' } },
